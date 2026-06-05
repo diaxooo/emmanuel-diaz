@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emmanuel Díaz Valdés | Entrenamiento Deportivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Barlow+Condensed:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111114;
+    --card: #16161a;
+    --border: #2a2a35;
+    --accent: #e8ff00;
+    --accent2: #ff4d00;
+    --white: #f0f0f0;
+    --muted: #7a7a8c;
+    --gradient: linear-gradient(135deg, #e8ff00 0%, #ff4d00 100%);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 60px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 60px;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+    padding-top: 100px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(232,255,0,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: 30%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,77,0,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--accent);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero-title span {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-desc {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    padding: 16px 40px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255,77,0,0.3);
+  }
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 16px 40px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-badge-wrap {
+    position: relative;
+    width: 420px; height: 420px;
+  }
+  .hero-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    animation: spin 20s linear infinite;
+  }
+  .hero-ring::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: 50%;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translateX(-50%);
+  }
+  .hero-ring-2 {
+    position: absolute;
+    inset: 30px;
+    border: 1px dashed rgba(232,255,0,0.15);
+    border-radius: 50%;
+    animation: spin 15s linear infinite reverse;
+  }
+  .hero-center {
+    position: absolute;
+    inset: 60px;
+    background: var(--card);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero-center::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,255,0,0.05) 0%, rgba(255,77,0,0.08) 100%);
+  }
+  .hero-icon {
+    font-size: 5rem;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .hero-center-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-align: center;
+    padding: 0 20px;
+  }
+  .hero-center-sub {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0 60px;
+  }
+  .stat-item {
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border-right: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: rgba(232,255,0,0.03); }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 60px; }
+  .section-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px; height: 1px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin-bottom: 60px;
+  }
+
+  /* SERVICES */
+  #servicios { background: var(--dark); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .service-card {
+    background: var(--card);
+    padding: 48px 40px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .service-card:hover { border-color: rgba(232,255,0,0.3); transform: translateY(-4px); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .service-num {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+  }
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+  .service-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .service-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .service-features li {
+    font-size: 0.82rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .service-features li::before {
+    content: '▸';
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+
+  /* APPROACH */
+  #metodologia { background: var(--black); }
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .approach-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .approach-text strong { color: var(--white); font-weight: 600; }
+  .approach-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .step:last-child { border-bottom: none; }
+  .step:hover .step-num { color: var(--accent); }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--border);
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .step-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+  .step-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  #testimonios { background: var(--dark); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .testimonial-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 40px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .testimonial-card:hover { border-color: rgba(232,255,0,0.25); }
+  .quote-mark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: var(--accent);
+    opacity: 0.15;
+    line-height: 0.7;
+    margin-bottom: 16px;
+  }
+  .testimonial-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .author-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .author-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .author-role { font-size: 0.78rem; color: var(--muted); }
+  .stars { color: var(--accent); font-size: 0.8rem; margin-bottom: 4px; }
+
+  /* CONTACT */
+  #contacto { background: var(--black); }
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 32px; }
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    transition: border-color 0.3s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .contact-item:hover { border-color: var(--accent); }
+  .contact-icon {
+    width: 48px; height: 48px;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .contact-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .contact-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 14px 18px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--accent); }
+  .form-group select option { background: var(--card); }
+  .form-submit {
+    background: var(--accent);
+    color: var(--black);
+    border: none;
+    padding: 18px 48px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    align-self: flex-start;
+  }
+  .form-submit:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255,77,0,0.3);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 48px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .footer-copy { font-size: 0.82rem; color: var(--muted); text-align: center; }
+  .footer-social { display: flex; gap: 16px; }
+  .social-btn {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FLOATING WA */
+  .wa-float {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    z-index: 200;
+    background: #25D366;
+    color: white;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(37,211,102,0.4);
+    transition: all 0.3s;
+    animation: pulse 2s infinite;
+  }
+  .wa-float:hover { transform: scale(1.1); box-shadow: 0 12px 35px rgba(37,211,102,0.6); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 8px 25px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 8px 40px rgba(37,211,102,0.7); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+    .hero-visual { display: none; }
+    .stats-bar { grid-template-columns: repeat(2,1fr); padding: 0 24px; }
+    section { padding: 70px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .approach-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">EDV Training</div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#metodologia">Metodología</a></li>
+    <li><a href="#testimonios">Testimonios</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="https://wa.me/573004444444" target="_blank" class="btn-primary" style="font-size:0.75rem; padding:12px 28px;">
+    WhatsApp ›
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Entrenamiento Deportivo Profesional</div>
+    <h1 class="hero-title">
+      Transforma<br>
+      tu <span>Potencial</span><br>
+      en Resultados
+    </h1>
+    <p class="hero-desc">
+      Planes de entrenamiento 100% personalizados diseñados para llevarte al siguiente nivel. 
+      Método basado en ciencia, disciplina y resultados reales.
+    </p>
+    <div class="hero-cta">
+      <a href="#contacto" class="btn-primary">Iniciar ahora</a>
+      <a href="#servicios" class="btn-outline">Ver servicios</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-badge-wrap">
+      <div class="hero-ring"></div>
+      <div class="hero-ring-2"></div>
+      <div class="hero-center">
+        <div class="hero-icon">🏋️</div>
+        <div class="hero-center-name">Emmanuel Díaz Valdés</div>
+        <div class="hero-center-sub">Entrenador Deportivo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-num">200+</div>
+    <div class="stat-label">Atletas entrenados</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">8+</div>
+    <div class="stat-label">Años de experiencia</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">98%</div>
+    <div class="stat-label">Tasa de satisfacción</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">6</div>
+    <div class="stat-label">Especialidades deportivas</div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="section-eyebrow">Lo que ofrezco</div>
+  <h2 class="section-title">Servicios de<br>Entrenamiento</h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-num">01</span>
+      <span class="service-icon">🎯</span>
+      <div class="service-title">Entrenamiento Personal</div>
+      <p class="service-desc">Sesiones individuales con atención exclusiva, diseñadas específicamente para tus objetivos, nivel y condición física actual.</p>
+      <ul class="service-features">
+        <li>Plan 100% personalizado</li>
+        <li>Seguimiento de progreso semanal</li>
+        <li>Corrección de técnica en tiempo real</li>
+        <li>Ajuste continuo del plan</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">02</span>
+      <span class="service-icon">👥</span>
+      <div class="service-title">Entrenamiento en Grupo</div>
+      <p class="service-desc">Sesiones grupales de alta energía que combinan la motivación colectiva con rutinas efectivas para toda condición física.</p>
+      <ul class="service-features">
+        <li>Grupos reducidos (max. 8 personas)</li>
+        <li>Ambiente motivador y competitivo</li>
+        <li>Múltiples horarios disponibles</li>
+        <li>Precio accesible</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">03</span>
+      <span class="service-icon">💻</span>
+      <div class="service-title">Entrenamiento Online</div>
+      <p class="service-desc">Accede a mi metodología desde cualquier lugar del mundo. Plan digital completo con soporte continuo vía WhatsApp y videollamadas.</p>
+      <ul class="service-features">
+        <li>Plan digital personalizado</li>
+        <li>Videos explicativos de ejercicios</li>
+        <li>Check-in semanal por videollamada</li>
+        <li>Soporte 24/7 por WhatsApp</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">04</span>
+      <span class="service-icon">⚡</span>
+      <div class="service-title">Rendimiento Deportivo</div>
+      <p class="service-desc">Programas especializados para atletas que buscan mejorar su rendimiento competitivo, velocidad, fuerza y resistencia específica.</p>
+      <ul class="service-features">
+        <li>Análisis de rendimiento deportivo</li>
+        <li>Periodización de entrenamiento</li>
+        <li>Preparación para competencias</li>
+        <li>Trabajo de potencia y explosividad</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">05</span>
+      <span class="service-icon">🍎</span>
+      <div class="service-title">Nutrición Deportiva</div>
+      <p class="service-desc">Orientación nutricional enfocada en optimizar tu rendimiento, composición corporal y recuperación muscular de forma saludable.</p>
+      <ul class="service-features">
+        <li>Plan alimentario deportivo</li>
+        <li>Estrategias de hidratación</li>
+        <li>Suplementación guiada</li>
+        <li>Ajuste según objetivos</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">06</span>
+      <span class="service-icon">🔄</span>
+      <div class="service-title">Recuperación y Movilidad</div>
+      <p class="service-desc">Protocolos de recuperación activa, movilidad funcional y trabajo preventivo para mantener tu cuerpo en óptimas condiciones.</p>
+      <ul class="service-features">
+        <li>Rutinas de movilidad funcional</li>
+        <li>Trabajo de prevención de lesiones</li>
+        <li>Técnicas de recuperación activa</li>
+        <li>Asesoría en descanso y sueño</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section id="metodologia">
+  <div class="section-eyebrow">Mi proceso</div>
+  <h2 class="section-title">Metodología<br>de Trabajo</h2>
+  <div class="approach-grid">
+    <div class="approach-text reveal">
+      <p>Mi filosofía es simple: <strong>no existen fórmulas mágicas</strong>. El éxito en el entrenamiento deportivo viene de la constancia, la técnica correcta y un plan diseñado específicamente para ti.</p>
+      <p>Con más de 8 años de experiencia acompañando atletas de todos los niveles, he desarrollado un sistema probado que garantiza <strong>resultados medibles y sostenibles en el tiempo</strong>.</p>
+      <p>Desde el primer día, trabajamos juntos con <strong>objetivos claros, timelines reales</strong> y los ajustes necesarios para superar cada obstáculo en tu camino.</p>
+      <a href="#contacto" class="btn-primary" style="display:inline-block; margin-top:32px;">Agendar evaluación gratuita</a>
+    </div>
+    <div class="approach-steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <div class="step-title">Evaluación Inicial</div>
+          <p class="step-desc">Análisis completo de tu condición física, historial deportivo, lesiones previas y objetivos personales.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <div class="step-title">Diseño del Plan</div>
+          <p class="step-desc">Creación de tu programa de entrenamiento personalizado con periodización y progresión definida.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <div class="step-title">Ejecución y Seguimiento</div>
+          <p class="step-desc">Implementación del plan con monitoreo constante de tu rendimiento, técnica y bienestar general.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <div class="step-title">Ajuste y Evolución</div>
+          <p class="step-desc">Revisiones periódicas para optimizar el plan según tu progreso y adaptarlo a tus nuevas metas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div class="section-eyebrow">Lo que dicen</div>
+  <h2 class="section-title">Resultados<br>Reales</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Emmanuel transformó completamente mi manera de entrenar. En 4 meses logré resultados que no había conseguido en 2 años yendo al gimnasio sin guía.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">CR</div>
+        <div>
+          <div class="author-name">Carlos Rincón</div>
+          <div class="author-role">Atleta amateur — Bogotá</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">Gracias a su programa de rendimiento, mejoré mis tiempos de carrera en un 18%. Su conocimiento técnico y motivación son incomparables.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">LP</div>
+        <div>
+          <div class="author-name">Laura Pedraza</div>
+          <div class="author-role">Corredora competitiva — Medellín</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">El entrenamiento online con Emmanuel es igual de efectivo que presencial. Su seguimiento es constante y el plan siempre está ajustado a mis necesidades.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AM</div>
+        <div>
+          <div class="author-name">Andrés Morales</div>
+          <div class="author-role">Cliente online — Cali</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="section-eyebrow">Hablemos</div>
+  <h2 class="section-title">Empieza Tu<br>Transformación</h2>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <p style="font-size:1.05rem; line-height:1.7; color:var(--muted); margin-bottom:8px;">
+        ¿Listo para dar el primer paso? Contáctame por cualquiera de estos medios y recibe una 
+        <strong style="color:var(--white);">evaluación inicial gratuita.</strong>
+      </p>
+      <a href="https://wa.me/573004444444" target="_blank" class="contact-item reveal">
+        <div class="contact-icon">📱</div>
+        <div>
+          <div class="contact-label">WhatsApp</div>
+          <div class="contact-value">+57 300 444 4444</div>
+        </div>
+      </a>
+      <a href="mailto:sesped00@gmail.com" class="contact-item reveal">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label">Correo electrónico</div>
+          <div class="contact-value">sesped00@gmail.com</div>
+        </div>
+      </a>
+      <div class="contact-item reveal" style="cursor:default;">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Ubicación</div>
+          <div class="contact-value">Colombia — Presencial y Online</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre completo">
+        </div>
+        <div class="form-group">
+          <label>Teléfono / WhatsApp</label>
+          <input type="tel" placeholder="+57 000 000 0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Servicio de interés</label>
+        <select>
+          <option value="">Selecciona un servicio...</option>
+          <option>Entrenamiento Personal</option>
+          <option>Entrenamiento en Grupo</option>
+          <option>Entrenamiento Online</option>
+          <option>Rendimiento Deportivo</option>
+          <option>Nutrición Deportiva</option>
+          <option>Recuperación y Movilidad</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea rows="4" placeholder="Cuéntame sobre tus objetivos y cómo puedo ayudarte..."></textarea>
+      </div>
+      <button class="form-submit" onclick="enviarWA()">Enviar mensaje ›</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Emmanuel Díaz Valdés</div>
+  <div class="footer-copy">
+    © 2025 Emmanuel Díaz Valdés — Entrenamiento Deportivo<br>
+    Todos los derechos reservados
+  </div>
+  <div class="footer-social">
+    <a href="mailto:sesped00@gmail.com" class="social-btn" title="Email">✉</a>
+    <a href="https://wa.me/573004444444" target="_blank" class="social-btn" title="WhatsApp">💬</a>
+  </div>
+</footer>
+
+<!-- WhatsApp Float Button -->
+<a href="https://wa.me/573004444444" target="_blank" class="wa-float" title="Escribir por WhatsApp">
+  💬
+</a>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX - 6 + 'px';
+    cursor.style.top = mouseY - 6 + 'px';
+  });
+  setInterval(() => {
+    ringX += (mouseX - ringX - 20) * 0.15;
+    ringY += (mouseY - ringY - 20) * 0.15;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+  }, 16);
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+
+  // Form -> WA
+  function enviarWA() {
+    const nombre = document.querySelector('input[placeholder="Tu nombre completo"]').value || 'Visitante';
+    const servicio = document.querySelector('select').value || 'consulta general';
+    const mensaje = document.querySelector('textarea').value || '';
+    const texto = `Hola Emmanuel! 👋 Soy *${nombre}* y me interesa el servicio de *${servicio}*. ${mensaje}`;
+    window.open(`https://wa.me/573004444444?text=${encodeURIComponent(texto)}`, '_blank');
+  }
+</script>
+</body>
+</html>
